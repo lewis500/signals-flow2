@@ -1,0 +1,12 @@
+@import '~material-colors/dist/colors';
+
+.signal-bar{
+	stroke: none;
+	fill: $md-green-500;
+}
+
+.bg{
+	fill: $md-grey-100;
+	stroke: none;
+	opacity: .9;
+}

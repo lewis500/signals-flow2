@@ -1,0 +1,19 @@
+@import '~material-colors/dist/colors';
+
+.plot{
+	fill: none;
+	stroke-width: 1px;
+}
+
+.plot.arrivals{
+	stroke: $md-pink-500;
+}
+
+.plot.exits{
+	stroke: $md-light-blue-500;
+}
+
+.plot.prediction{
+	stroke-width: 2px;
+	opacity: .5;
+}

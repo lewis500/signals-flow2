@@ -1,0 +1,19 @@
+@import '~material-colors/dist/colors';
+
+
+.flex-container-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.flex-container-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+
+

@@ -1,0 +1,17 @@
+@import '~material-colors/dist/colors';
+
+.road{
+	stroke: #eee;
+	fill: none;
+}
+.signal{
+	stroke:none;
+}
+
+path.arc{
+	stroke: white;
+	stroke-width: 1px;
+
+	opacity: .4;
+	// fill: $md-light-blue-500;
+}
