@@ -25,7 +25,6 @@ function makeCar(x, tA, id): Car {
 }
 
 const midPoints = range(NUM_SIGNALS).map(i=>(GAP*i + GAP/2)%ROAD_LENGTH );
-console.log(midPoints);
 
 export function makeCars():Cars {
   return range(NUM_CARS)
@@ -35,8 +34,6 @@ export function makeCars():Cars {
       return makeCar(x, tA, i);
     });
 }
-
-console.log(makeCars())
 
 export function makeTrafficInitial(): TrafficState {
   return {
@@ -104,18 +101,34 @@ function reduceTraffic(traffic: TrafficState, signals: Signals, time: number): T
     travelingX[car.xOld] = true;
   }
 
-  let failedTrials = Array(ROAD_LENGTH);
+  let xTrials = Array(ROAD_LENGTH);
 
   [entering, queueing] = partition(queueing, car => {
     let x = car.x;
-    if (travelingX[car.x] || failedTrials[x]) return false; 
-    let prevSpace = x === 0 ? ROAD_LENGTH - 1 : x - 1;
+    // If the entry cell is occuppied or a vehicle has already entered during
+    // this tick return false
+    if (travelingX[car.x] || xTrials[x]) return false; 
+    // Update xTrials, it should only be checked once per cell per tick
+    xTrials[x] = true;
+    // If the entry cell is empty and no vehicle has entered during this tick,
+    // check downstream, if empty then enter otherwise flip a coin to see if 
+    // the car enters. 
+    let currentX = x;
     let failedTrial = Math.random() > PRIORITY;
-    if (travelingX[prevSpace] && failedTrial) {
-      failedTrials[x] = true;
-      return false;
+    for (let i = 0; i < 5; i++) {
+      // Update the cell to look into
+      let currentX = (currentX === 0) ? ROAD_LENGTH - 1 : currentX - 1;
+      // If the cell is already full then flip coin and also update travelingX[x]
+      // accordingly
+      if (travelingX[currentX]) {
+        travelingX[x] = !failedTrial
+        return !failedTrial;
+      }
     }
-    return (travelingX[x] = failedTrials[x] = true);
+    // If none of the 5 downstream cells are full then access the loop and update
+    // travelingX[x] accordingly
+    travelingX[x] = true
+    return true;
   });
 
   moving = [...moving, ...entering];
