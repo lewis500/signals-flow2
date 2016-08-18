@@ -111,7 +111,7 @@ function reduceTraffic(traffic: TrafficState, signals: Signals, time: number): T
     // Update xTrials, it should only be checked once per cell per tick
     xTrials[x] = true;
     // If the entry cell is empty and no vehicle has entered during this tick,
-    // check downstream, if empty then enter otherwise flip a coin to see if 
+    // check upstream, if empty then enter otherwise flip a coin to see if 
     // the car enters. 
     let currentX = x;
     let failedTrial = Math.random() > PRIORITY;
