@@ -2,7 +2,7 @@
 export const NUM_SIGNALS = 32;
 export const ROAD_LENGTH = 320; //1280 long block scenario
 export const NUM_CARS = 1500;
-export const RUSH_LENGTH = 3000;
+export const RUSH_LENGTH = 100;
 export const TRIP_LENGTH = ROAD_LENGTH/2 - 1;
 export const VF = 1;
 export const SPACE = 1;

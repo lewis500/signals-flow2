@@ -107,7 +107,7 @@ function reduceTraffic(traffic: TrafficState, signals: Signals, time: number): T
     let x = car.x;
     // If the entry cell is occuppied or a vehicle has already entered during
     // this tick return false
-    if (travelingX[car.x] || xTrials[x]) return false; 
+    if (taken[car.x] || xTrials[x]) return false; 
     // Update xTrials, it should only be checked once per cell per tick
     xTrials[x] = true;
     // If the entry cell is empty and no vehicle has entered during this tick,
@@ -120,7 +120,7 @@ function reduceTraffic(traffic: TrafficState, signals: Signals, time: number): T
       let currentX = (currentX === 0) ? ROAD_LENGTH - 1 : currentX - 1;
       // If the cell is already full then flip coin and also update travelingX[x]
       // accordingly
-      if (travelingX[currentX]) {
+      if (taken[currentX]) {
         travelingX[x] = !failedTrial
         return !failedTrial;
       }
