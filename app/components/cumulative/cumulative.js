@@ -13,7 +13,7 @@ const WIDTH = 280,
   HEIGHT = 200,
   MAR = 45;
 
-const DURATION = 20*RUSH_LENGTH;
+const DURATION = 5*RUSH_LENGTH;
 
 type Props = {
   history: History;
@@ -69,12 +69,11 @@ class CumPlot extends React.Component{
           />
           <path d={pathMaker(history, 't','a')} className='plot arrivals'/>
           <path d={pathMaker(history, 't','e')} className='plot exits'/>
+          <path d={pathMaker(history, 't','va')} className='plot va'/>
         </g>
       </svg>
     );
   }
-          // <path d={pathMaker(this.props.prediction, 't','e')} className='plot exits prediction'/>
-          // <path d={pathMaker(this.props.prediction, 't','a')} className='plot arrivals prediction'/>
 }
 
 export default CumPlot

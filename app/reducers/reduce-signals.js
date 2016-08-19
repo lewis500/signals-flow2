@@ -1,5 +1,5 @@
 //@flow
-import { N, ROAD_LENGTH, NUM_SIGNALS, CYCLE, GREEN, GAP, K0, UPDATE_FREQUENCY, FRO, BRO } from "../constants/constants.js";
+import { N, ROAD_LENGTH, NUM_SIGNALS, CYCLE, GREEN, RETIMING, GAP, K0, UPDATE_FREQUENCY, FRO, WHICHOFFSET, BRO } from "../constants/constants.js";
 import { map, sum, assign, range, forEach, mean, zip, isEqual, lt, gte, takeRight } from 'lodash';
 // import { Signal } from '../constants/types';
 import type { Signal, Car, MemoryDatum, Signals, Cars, Time } from '../constants/types';
@@ -7,31 +7,31 @@ import type { Signal, Car, MemoryDatum, Signals, Cars, Time } from '../constants
 const doubleMod = (a, b) => (a % b + b) % b;
 const EMPTY_LINKS: Array < number > = map(range(NUM_SIGNALS), i => 0);
 
-// function retimeSignals(signals: Signals, moving: Array < Car > , time: Time): void {
-//   if (time % UPDATE_FREQUENCY == 0) {
-//     const densities = calcDensities(moving, N);
+function retimeSignals(signals: Signals, moving: Array < Car > , time: Time): void {
+  if (time % UPDATE_FREQUENCY == 0) {
+    const densities = calcDensities(moving, N);
 
-//     //now calculate preliminary relative offsets
-//     const ROs = map(densities, l => l > K0 ? BRO : FRO);
+    //now calculate preliminary relative offsets
+    const ROs = map(densities, l => l > K0 ? BRO : FRO);
 
-//     //now get the total extra
-//     const extra = Math.round((sum(ROs) % CYCLE) / NUM_SIGNALS);
+    //now get the total extra
+    const extra = Math.round((sum(ROs) % CYCLE) / NUM_SIGNALS);
 
-//     //calculate corrected ROs
-//     const ROsCorrected = map(ROs, d => d - extra);
+    //calculate corrected ROs
+    const ROsCorrected = map(ROs, d => d - extra);
 
-//     //now make the absolute offsets
-//     let oA = 0;
-//     forEach(signals, (signal, i, k) => {
-//       oA = doubleMod(oA + ROsCorrected[i], CYCLE);
-//       signal.oA = oA;
-//     });
-//   }
+    //now make the absolute offsets
+    let oA = 0;
+    forEach(signals, (signal, i, k) => {
+      oA = doubleMod(oA + ROsCorrected[i], CYCLE);
+      signal.oA = oA;
+    });
+  }
 
-// }
+}
 
 export default function(signals: Signals, moving: Array < Car > , time: number): Signals {
-  // retimeSignals(signals, moving, time);
+  if(RETIMING) retimeSignals(signals, moving, time);
   forEach(signals, s => tick(s, time));
   return signals.slice();
 };
@@ -84,10 +84,11 @@ function tick(signal: Signal, time: number): void {
     signal.green = false;
 }
 
+
 export function makeSignalsInitial(): Signals {
   return range(NUM_SIGNALS)
     .map(index => {
-      let oA = Math.round(doubleMod(BRO * index, CYCLE)),
+      let oA = Math.round(doubleMod(WHICHOFFSET * index, CYCLE)),
         x = Math.round(index / NUM_SIGNALS * ROAD_LENGTH);
       return createSignal(index, oA, x)
     });

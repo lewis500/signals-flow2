@@ -46,6 +46,7 @@ export type TrafficState = {
   moving: Cars;
   exited: Cars;
   measurement: Measurement;
+  va: number;
 };
 
 export type HistoryDatum = {
@@ -68,6 +69,7 @@ export type Car = {
   tA: Time;
   tE: Time;
   didMove: boolean;
+  tripLength: number;
 };
 
 

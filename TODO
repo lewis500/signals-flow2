@@ -1,3 +1,15 @@
 + try out different T's and p's for the different scenarios
 + count when the thing is gridlocked. What counts as a total gridlock?
 + be able to set it up with just the BRO going forever...maybe set the update frequency as infinity?
+
+
+
+
+THIS AFTERNOON
++ add the UFD
++ port the new prioritity system over ot the other two
++ display all the parameters on this one and on the second one too
++ add zooming feature
++ reset button
++ print total delay over the UFD
++ normally distribution of arrivals

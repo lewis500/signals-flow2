@@ -3,10 +3,11 @@
 .plot{
 	fill: none;
 	stroke-width: 1px;
+	opacity: .6;
 }
 
 .plot.arrivals{
-	stroke: $md-pink-500;
+	stroke: $md-red-500;
 }
 
 .plot.exits{
@@ -16,4 +17,9 @@
 .plot.prediction{
 	stroke-width: 2px;
 	opacity: .5;
+}
+
+
+.plot.va{
+	stroke: $md-purple-500;
 }

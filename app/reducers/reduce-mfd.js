@@ -1,5 +1,5 @@
 //@flow
-import { VF, Q0, KJ, W, CYCLE,BRO, ROAD_LENGTH, GREEN,FRO, NUM_SIGNALS } from '../constants/constants';
+import { VF, Q0, KJ, W, CYCLE,BRO, ROAD_LENGTH, GREEN,FRO, NUM_SIGNALS,WHICHOFFSET } from '../constants/constants';
 import { assign, map, flatMap, range, min } from 'lodash';
 const DISTANCE = ROAD_LENGTH / NUM_SIGNALS;
 import type { MFDEntry, Action, MFD } from '../constants/types';
@@ -47,7 +47,7 @@ function findMin(k: number, table: Array < TableEntry > ): MFDEntry {
   return {k,q,v}
 }
 
-export const MFD_INITIAL = createMFD(FRO);
+export const MFD_INITIAL = createMFD(WHICHOFFSET);
 
 export function createMFD(offset: number) {
   const table = flatMap(['forward', 'backward'], direction => loopOverEntries(direction, offset));

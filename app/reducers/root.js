@@ -4,7 +4,7 @@ import { TICK } from '../constants/actions';
 import signalsReduce, { makeSignalsInitial } from './reduce-signals';
 import { MFD_INITIAL } from './reduce-mfd';
 import trafficReduce, { makeTrafficInitial } from './reduce-traffic';
-import { NUM_CARS,RUSH_LENGTH } from '../constants/constants';
+import { NUM_CARS, RUSH_LENGTH } from '../constants/constants';
 import { map, mean, sumBy } from 'lodash';
 import SUPER_MFD from './super-mfd';
 import reducePrediction from './reduce-prediction';
@@ -29,14 +29,16 @@ function tick(state: RootState): RootState {
   return {...state, signals, traffic, time };
 }
 
-function rootReduce(state: RootState = makeRootInitial()): RootState {
-  for (var i = 0; i < 50; i++) state = tick(state);
-  // while(state.time<DURATION) state = tick(state);
-  if (state.time === DURATION) {
-    console.log(mean(map(state.traffic.exited, d => d.tE - d.tA)));
-    console.log(sumBy(map(state.traffic.history, d => d.a - d.e) / NUM_CARS));
-  }
-  return state;
+function rootReduce(state: RootState = makeRootInitial(), action: Object): RootState {
+  if (action.type === TICK) {
+    for (var i = 0; i < 500; i++) state = tick(state);
+    // while(state.time<DURATION) state = tick(state);
+    if (state.time === DURATION) {
+      console.log(mean(map(state.traffic.exited, d => d.tE - d.tA)));
+      console.log(sumBy(map(state.traffic.history, d => d.a - d.e) / NUM_CARS));
+    }
+    return state;
+  } else return state;
 }
 
 export default rootReduce;
