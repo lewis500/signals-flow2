@@ -13,7 +13,7 @@ const WIDTH = 280,
   HEIGHT = 200,
   MAR = 45;
 
-const DURATION = 2*RUSH_LENGTH;
+const DURATION = 20*RUSH_LENGTH;
 
 type Props = {
   history: History;

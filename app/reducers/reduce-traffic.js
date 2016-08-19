@@ -20,12 +20,12 @@ function makeCar(x, tA, id): Car {
     tA,
     tE: tA,
     xOld: x,
-    didMove: false
+    didMove: false,
+    passive: true
   };
 }
 
 const midPoints = range(NUM_SIGNALS).map(i=>(GAP*i + GAP/2)%ROAD_LENGTH );
-console.log(midPoints);
 
 export function makeCars():Cars {
   return range(NUM_CARS)
@@ -35,8 +35,6 @@ export function makeCars():Cars {
       return makeCar(x, tA, i);
     });
 }
-
-console.log(makeCars())
 
 export function makeTrafficInitial(): TrafficState {
   return {
@@ -67,7 +65,6 @@ function moveCar(car, taken): void {
   }
 }
 
-
 function reduceTraffic(traffic: TrafficState, signals: Signals, time: number): TrafficState {
   let { waiting, moving, queueing, measurement, history, exited } = traffic;
   let newQueueing, exiting, entering;
@@ -95,7 +92,7 @@ function reduceTraffic(traffic: TrafficState, signals: Signals, time: number): T
   
   //get waiting and new entering
   [newQueueing, waiting] = partition(waiting, car => car.tA <= time);
-
+  
   queueing = [...queueing, ...newQueueing];
 
   let travelingX = Array(ROAD_LENGTH);
@@ -104,20 +101,54 @@ function reduceTraffic(traffic: TrafficState, signals: Signals, time: number): T
     travelingX[car.xOld] = true;
   }
 
-  let failedTrials = Array(ROAD_LENGTH);
+  let xTrials = Array(ROAD_LENGTH);
 
   [entering, queueing] = partition(queueing, car => {
     let x = car.x;
-    if (travelingX[car.x] || failedTrials[x]) return false; 
-    let prevSpace = x === 0 ? ROAD_LENGTH - 1 : x - 1;
-    let failedTrial = Math.random() > PRIORITY;
-    if (travelingX[prevSpace] && failedTrial) {
-      failedTrials[x] = true;
+    // If a vehicle has already tried to enter into this cell during
+    // this tick return false
+    if (xTrials[x]) {
       return false;
+    } else {
+      // Update xTrials, it should only be checked once per cell per tick
+      xTrials[x] = true;
+      // If the vehicle is passive flip a coin to set its mood this tick
+      // Once a vehicle is aggressive it will remain so
+      if (car.passive) {
+        car.passive = Math.random() > PRIORITY;
+      }
+      // See if the vehicle enters the loop
+      if (car.passive) {
+        // Passive car - only enters when big gap available
+        let currentX = car.x;
+        // A passive driver is also cautious and waits for the downstream cell 
+        // to clear up (equivalent to waiting two ticks before trying to enter)
+        if (travelingX[(currentX + 1) % ROAD_LENGTH]) {
+          return false;
+        }
+        for (let i = 1; i < 6; i++) {
+          // If a cell is full a passive car won't enter
+          if (travelingX[currentX]) {
+            return false;
+          }
+          // Update the cell to look into
+          let currentX = (currentX === 0) ? ROAD_LENGTH - 1 : currentX - 1;
+        }
+        travelingX[car.x] = true;
+        return true;
+      } else {
+        // Aggressive car - enters if single gap available
+        if (travelingX[car.x]) {
+          return false;
+        } else {
+          travelingX[car.x] = true;
+          return true;
+        }
+      }
     }
-    return (travelingX[x] = failedTrials[x] = true);
   });
 
+  // console.log(time, entering.length, queueing.length)
   moving = [...moving, ...entering];
 
   //get rid of the exited people
