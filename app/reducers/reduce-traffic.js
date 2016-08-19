@@ -20,7 +20,8 @@ function makeCar(x, tA, id): Car {
     tA,
     tE: tA,
     xOld: x,
-    didMove: false
+    didMove: false,
+    passive: true
   };
 }
 
@@ -64,7 +65,6 @@ function moveCar(car, taken): void {
   }
 }
 
-
 function reduceTraffic(traffic: TrafficState, signals: Signals, time: number): TrafficState {
   let { waiting, moving, queueing, measurement, history, exited } = traffic;
   let newQueueing, exiting, entering;
@@ -92,7 +92,7 @@ function reduceTraffic(traffic: TrafficState, signals: Signals, time: number): T
   
   //get waiting and new entering
   [newQueueing, waiting] = partition(waiting, car => car.tA <= time);
-
+  
   queueing = [...queueing, ...newQueueing];
 
   let travelingX = Array(ROAD_LENGTH);
@@ -105,32 +105,50 @@ function reduceTraffic(traffic: TrafficState, signals: Signals, time: number): T
 
   [entering, queueing] = partition(queueing, car => {
     let x = car.x;
-    // If the entry cell is occuppied or a vehicle has already entered during
+    // If a vehicle has already tried to enter into this cell during
     // this tick return false
-    if (taken[car.x] || xTrials[x]) return false; 
-    // Update xTrials, it should only be checked once per cell per tick
-    xTrials[x] = true;
-    // If the entry cell is empty and no vehicle has entered during this tick,
-    // check upstream, if empty then enter otherwise flip a coin to see if 
-    // the car enters. 
-    let currentX = x;
-    let failedTrial = Math.random() > PRIORITY;
-    for (let i = 0; i < 5; i++) {
-      // Update the cell to look into
-      let currentX = (currentX === 0) ? ROAD_LENGTH - 1 : currentX - 1;
-      // If the cell is already full then flip coin and also update travelingX[x]
-      // accordingly
-      if (taken[currentX]) {
-        travelingX[x] = !failedTrial
-        return !failedTrial;
+    if (xTrials[x]) {
+      return false;
+    } else {
+      // Update xTrials, it should only be checked once per cell per tick
+      xTrials[x] = true;
+      // If the vehicle is passive flip a coin to set its mood this tick
+      // Once a vehicle is aggressive it will remain so
+      if (car.passive) {
+        car.passive = Math.random() > PRIORITY;
+      }
+      // See if the vehicle enters the loop
+      if (car.passive) {
+        // Passive car - only enters when big gap available
+        let currentX = car.x;
+        // A passive driver is also cautious and waits for the downstream cell 
+        // to clear up (equivalent to waiting two ticks before trying to enter)
+        if (travelingX[(currentX + 1) % ROAD_LENGTH]) {
+          return false;
+        }
+        for (let i = 1; i < 6; i++) {
+          // If a cell is full a passive car won't enter
+          if (travelingX[currentX]) {
+            return false;
+          }
+          // Update the cell to look into
+          let currentX = (currentX === 0) ? ROAD_LENGTH - 1 : currentX - 1;
+        }
+        travelingX[car.x] = true;
+        return true;
+      } else {
+        // Aggressive car - enters if single gap available
+        if (travelingX[car.x]) {
+          return false;
+        } else {
+          travelingX[car.x] = true;
+          return true;
+        }
       }
     }
-    // If none of the 5 downstream cells are full then access the loop and update
-    // travelingX[x] accordingly
-    travelingX[x] = true
-    return true;
   });
 
+  // console.log(time, entering.length, queueing.length)
   moving = [...moving, ...entering];
 
   //get rid of the exited people

@@ -1,14 +1,14 @@
 //@flow
 export const NUM_SIGNALS = 32;
-export const ROAD_LENGTH = 320; //1280 long block scenario
-export const NUM_CARS = 1500;
+export const ROAD_LENGTH = 1280; //1280 long block scenario, 320 short blocks
+export const NUM_CARS = 4500;
 export const RUSH_LENGTH = 100;
-export const TRIP_LENGTH = ROAD_LENGTH/2 - 1;
+export const TRIP_LENGTH = 60;
 export const VF = 1;
 export const SPACE = 1;
 export const KJ = 1;
-export const CYCLE = 40;
-export const GREEN = 40;
+export const CYCLE = 72;
+export const GREEN = 72;
 export const MEMORY_LENGTH = 50;
 export const W = 1/2;
 export const Q0 = 1/3;
@@ -18,4 +18,4 @@ export const GAP = ROAD_LENGTH/NUM_SIGNALS;
 export const FRO = GAP/VF;
 export const BRO = -GAP/W;
 export const N = 3;
-export const PRIORITY = 0.01;
+export const PRIORITY = 1;
