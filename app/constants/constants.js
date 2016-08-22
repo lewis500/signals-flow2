@@ -1,21 +1,5 @@
 //@flow
 
-// type Scenario = {
-// 	road: number;
-// 	rush: number;	numCars: number;
-// 	σ: number;
-// 	p: number;
-// 	retiming: boolean;
-// };
-
-// const scenarios:Array<Senario> = [
-// 	{road: 1280, numCars: 4000, σ: 2880, p: .08}, //0
-// 	{road: 1280,  numCars: 4000, σ: 2880, p: .08}, //0
-// 	{road: 320, numCars: 1500, σ: 1440, p: .08},
-// 	{road: 320, numCars: 1500, σ: }
-// 	// {road: 1280, trip: }
-// ];
-
 //LONG BLOCKS
 export const ROAD_LENGTH = 1280; 
 export const NUM_CARS = 4000;
