@@ -1,23 +1,4 @@
 //@flow
-import {
-  assign,
-  random,
-  takeRight,
-  isEqual,
-  lt,
-  gte
-} from 'lodash';
-import {
-  ROAD_LENGTH,
-  NUM_CARS,
-  SPACE,
-  VF,
-  RUSH_LENGTH,
-  MEMORY_LENGTH,
-  CYCLE,
-  GREEN,
-  TRIP_LENGTH
-} from "./constants.js";
 
 export type Time = number;
 export type Loc = number;

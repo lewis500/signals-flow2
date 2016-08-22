@@ -4,7 +4,7 @@ import col from "../../style/colors";
 import './style-cum-plot.scss';
 
 import _ from 'lodash';
-import { NUM_SIGNALS, CYCLE, GREEN, RUSH_LENGTH, NUM_CARS } from "../../constants/constants";
+import { DURATION, NUM_CARS } from "../../constants/constants";
 import type{History} from '../../constants/types';
 import Axis from '../axis/axis';
 const { g, rect } = React.DOM;
@@ -12,8 +12,6 @@ const { g, rect } = React.DOM;
 const WIDTH = 280,
   HEIGHT = 200,
   MAR = 45;
-
-const DURATION = 5*RUSH_LENGTH;
 
 type Props = {
   history: History;

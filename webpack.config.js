@@ -6,7 +6,7 @@ module.exports = {
   // devtool: 'eval',
   devtool: "#inline-source-map",
   entry: [
-    'webpack-dev-server/client?http://localhost:3030',
+    'webpack-dev-server/client?http://localhost:3040',
     './app/index.js'
   ],
   output: {

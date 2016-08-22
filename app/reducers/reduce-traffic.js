@@ -1,13 +1,10 @@
 //@flow
-import { ROAD_LENGTH, VF, NUM_CARS, SPACE, GAP, RUSH_LENGTH, PRIORITY, NUM_SIGNALS, MEMORY_LENGTH, TRIP_LENGTH } from "../constants/constants.js";
+import { ROAD_LENGTH, σ, VF, NUM_CARS, SPACE, GAP, RUSH_LENGTH, PRIORITY, NUM_SIGNALS, MEMORY_LENGTH, TRIP_LENGTH } from "../constants/constants.js";
 import { range, filter, isEqual, sample, forEach, sum, map, partition, mean } from 'lodash';
 import type { Car, HistoryDatum, Loc, History, Time, Signal, Cars, Signals, Cell, TrafficState, Measurement } from '../constants/types';
 import { randomNormal } from 'd3-random';
 
-const μ = 500;
-const σ = 1400;
-
-const random = randomNormal(μ, σ);
+const random = randomNormal(0, σ);
 
 const chooseTA = () => Math.max(0, 4*σ  + random());
 
@@ -31,7 +28,6 @@ export function makeCars(): Cars {
     .map(i => {
       const x = sample(midPoints);
       const tA = chooseTA();
-      // const tA = RUSH_LENGTH * i / NUM_CARS;
       return makeCar(x, tA, i);
     });
 }

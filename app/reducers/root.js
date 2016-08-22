@@ -33,10 +33,10 @@ function rootReduce(state: RootState = makeRootInitial(), action: Object): RootS
   if (action.type === TICK) {
     for (var i = 0; i < 500; i++) state = tick(state);
     // while(state.time<DURATION) state = tick(state);
-    if (state.time === DURATION) {
-      console.log(mean(map(state.traffic.exited, d => d.tE - d.tA)));
-      console.log(sumBy(map(state.traffic.history, d => d.a - d.e) / NUM_CARS));
-    }
+    // if (state.time === DURATION) {
+    //   console.log(mean(map(state.traffic.exited, d => d.tE - d.tA)));
+    //   console.log(sumBy(map(state.traffic.history, d => d.a - d.e) / NUM_CARS));
+    // }
     return state;
   } else return state;
 }

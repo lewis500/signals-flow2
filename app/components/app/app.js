@@ -39,18 +39,18 @@ class AppComponent extends Component {
     return (
       <div>
         <button onClick={this.pausePlay}>Pause/Play</button>
-        <Road
-          signals={this.props.signals}
-         cars={this.props.traffic.moving}/>
         <CumPlot history={this.props.traffic.history} prediction={this.props.prediction} />
-        <TimePlot signals={this.props.signals} time={this.props.time}/>
         <MFDPlot mfd={this.props.mfd} measurement={this.props.traffic.measurement}/>
       </div>
     );
   }
 };
-
-
+        // <TimePlot signals={this.props.signals} time={this.props.time}/>
+/*
+<Road
+signals={this.props.signals}
+cars={this.props.traffic.moving}/>
+*/
 function mapActionsToProps(dispatch: Function): Object {
   return {
     tick() {

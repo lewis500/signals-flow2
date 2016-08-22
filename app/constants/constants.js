@@ -1,11 +1,38 @@
 //@flow
-export const ROAD_LENGTH = 320; //1280 long block scenario, 320 short blocks
-export const TRIP_LENGTH = ROAD_LENGTH/2;
-export const PRIORITY = .04;
-export const RUSH_LENGTH = 2000;
+
+// type Scenario = {
+// 	road: number;
+// 	rush: number;	numCars: number;
+// 	σ: number;
+// 	p: number;
+// 	retiming: boolean;
+// };
+
+// const scenarios:Array<Senario> = [
+// 	{road: 1280, numCars: 4000, σ: 2880, p: .08}, //0
+// 	{road: 1280,  numCars: 4000, σ: 2880, p: .08}, //0
+// 	{road: 320, numCars: 1500, σ: 1440, p: .08},
+// 	{road: 320, numCars: 1500, σ: }
+// 	// {road: 1280, trip: }
+// ];
+
+//LONG BLOCKS
+export const ROAD_LENGTH = 1280; 
+export const NUM_CARS = 4000;
+export const σ = 2880;
+
+//SHORT BLOCKS
+// export const ROAD_LENGTH = 320; 
+// export const NUM_CARS = 1500;
+// export const σ = 1440;
+
+export const TRIP_LENGTH = .5*ROAD_LENGTH;
+export const WHICHOFFSET = FRO;
+export const RETIMING = true;
+export const PRIORITY = .08;
+export const DURATION = 10*σ;
 
 export const NUM_SIGNALS = 32;
-export const NUM_CARS = 1500;
 export const VF = 1;
 export const SPACE = 1;
 export const KJ = 1;
@@ -20,6 +47,3 @@ export const GAP = ROAD_LENGTH/NUM_SIGNALS;
 export const FRO = GAP/VF;
 export const BRO = -GAP/W;
 export const N = 0;
-
-export const WHICHOFFSET = FRO;
-export const RETIMING = false;

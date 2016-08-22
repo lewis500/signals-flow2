@@ -4,6 +4,7 @@ import type{MFD} from '../constants/types';
 import {map,range,lt,lte} from 'lodash';
 import {createMFD} from './reduce-mfd';
 import { SET_OFFSET } from '../constants/actions';
+console.log(VF,K0,W,ROAD_LENGTH,CYCLE,GREEN, GAP, NUM_SIGNALS);
 
 export default map(
 	range(.01, 1.01, .01),(k,i)=>{

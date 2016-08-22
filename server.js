@@ -6,10 +6,9 @@ new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   hot: false,
   noInfo: true,
-      // 'port': 3003,
-
-
-}).listen(3040, 'localhost', function (err, result) {
+	port: 3040,
+})
+.listen(3040, 'localhost', function (err, result) {
   if (err) {
     console.log(err);
   }
