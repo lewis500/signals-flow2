@@ -27,7 +27,6 @@ export const σ = 2880;
 // export const σ = 1440;
 
 export const TRIP_LENGTH = .5*ROAD_LENGTH;
-export const WHICHOFFSET = FRO;
 export const RETIMING = true;
 export const PRIORITY = .08;
 export const DURATION = 10*σ;
@@ -47,3 +46,6 @@ export const GAP = ROAD_LENGTH/NUM_SIGNALS;
 export const FRO = GAP/VF;
 export const BRO = -GAP/W;
 export const N = 0;
+
+export const WHICHOFFSET = FRO;
+
